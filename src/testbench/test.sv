@@ -1,15 +1,12 @@
 class ram_test;
-//PROPERTIES
-  //Virtual interfaces for driver, monitor and reference model
+
   virtual ram_if drv_vif;
   virtual ram_if mon_vif;
   virtual ram_if ref_vif;
-  //Declaring handle for environment
+ 
   ram_environment env;
 
-//METHODS
-  //Explicitly overriding the constructor to connect the virtual interfaces
-  //from driver, monitor and reference model to test
+
   function new(virtual ram_if drv_vif,
                virtual ram_if mon_vif,
                virtual ram_if ref_vif);
@@ -18,15 +15,13 @@ class ram_test;
     this.ref_vif=ref_vif;
   endfunction
 
-  //Task which builds the object for environment handle and 
-  //calls the build and start methods of the environment
   task run();
     env=new(drv_vif,mon_vif,ref_vif);
     env.build;
     env.start;
   endtask
 endclass
-/////////////////////////////////////////////////////////////////////////////
+
 class test1 extends ram_test;
  ram_transaction1 trans;
   function new(virtual ram_if drv_vif,virtual ram_if mon_vif , virtual ram_if ref_vif);
@@ -116,45 +111,37 @@ class test_regression extends ram_test;
     $display("child test");
     env=new(drv_vif,mon_vif,ref_vif);
     env.build;
-///////////////////////////////////////////////////////
+
     begin 
     trans0 = new();
     env.gen.blueprint= trans0;
     end
     env.start;
-//////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////
     begin 
     trans1 = new();
     env.gen.blueprint= trans1;
     end
     env.start;
-//////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////
     begin 
     trans2 = new();
     env.gen.blueprint= trans2;
     end
     env.start;
-//////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////
     begin 
     trans3 = new();
     env.gen.blueprint= trans3;
     end
     env.start;
-//////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////////
     begin 
     trans4 = new();
     env.gen.blueprint= trans4;
     end
     env.start;
-//////////////////////////////////////////////////////
+
   endtask
 endclass
 
