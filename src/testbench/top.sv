@@ -1,16 +1,16 @@
 module top( );
-  //Importing the ram package
+ 
     import ram_pkg ::*; 
-  //Declaring variables for clock and reset
+
     bit clk;
     bit reset;
 
-  //Generating the clock
+
   initial
     begin
      forever #10 clk=~clk;
     end
-  //Asserting and de-asserting the reset
+ 
   initial
     begin
       @(posedge clk);
@@ -26,9 +26,9 @@ module top( );
 
     end
  
-  //Instantiating the interface2
+
     ram_if intrf(clk,reset);
-  //Instantiating the DUV
+  
     RAM DUV(.data_in(intrf.data_in),
             .write_enb(intrf.write_enb),
             .read_enb(intrf.read_enb),
@@ -37,7 +37,7 @@ module top( );
             .clk(clk),
             .reset(reset)
            );
-  //Instantiating the Test 
+
     ram_test tb= new(intrf.DRV,intrf.MON,intrf.REF_SB);
     test1 tb1= new(intrf.DRV,intrf.MON,intrf.REF_SB);
     test2 tb2= new(intrf.DRV,intrf.MON,intrf.REF_SB);
@@ -45,7 +45,7 @@ module top( );
     test4 tb4= new(intrf.DRV,intrf.MON,intrf.REF_SB);
     test_regression tb_regression= new(intrf.DRV,intrf.MON,intrf.REF_SB);
 
-//Calling the test's run task which starts the execution of the testbench architecture 
+
   initial
    begin
     tb_regression.run();
