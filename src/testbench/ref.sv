@@ -1,21 +1,12 @@
 `include "defines.sv"
 class ram_reference_model;
-//PROPERTIES
-  //Ram transaction class handle
    ram_transaction ref_trans;
-  //Mailbox for reference model to scoreboard connection
    mailbox #(ram_transaction) mbx_rs;
-  //Mailbox for driver to reference model connection
    mailbox #(ram_transaction) mbx_dr;
-  //Virtual interface with driver modport and it's instance
    virtual ram_if.REF_SB vif;
-  //Associative array used for mimicing the functionality of the RAM
    bit [7:0] MEM [31:0];
 
-//METHODS
-  //Explicitly overriding the constructor to make mailbox connection from driver
-  //to reference model, to make mailbox connection from reference model to scoreboard
-  //and to connect the virtual interface from reference model to enviornment 
+
   function new(mailbox #(ram_transaction) mbx_dr,
                mailbox #(ram_transaction) mbx_rs,
                virtual ram_if.REF_SB vif);
@@ -24,7 +15,7 @@ class ram_reference_model;
     this.vif=vif;
   endfunction
 
-  //Task which mimics the functionality of the RAM
+
   task start();
     for(int i=0;i<`no_of_trans;i++)
      begin
@@ -57,7 +48,7 @@ class ram_reference_model;
       
 	end
      end
-     //Putting the reference model transaction to mailbox 
+
       mbx_rs.put(ref_trans);
       
      end 
